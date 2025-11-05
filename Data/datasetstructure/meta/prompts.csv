@@ -1,0 +1,6 @@
+prompt_id,template_text,variables_json,purpose
+1,val-1,"{""sample"": 0}",val-1
+2,val-2,"{""sample"": 1}",val-2
+3,val-3,"{""sample"": 2}",val-3
+4,val-4,"{""sample"": 3}",val-4
+5,val-5,"{""sample"": 4}",val-5

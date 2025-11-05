@@ -1,0 +1,6 @@
+learner_id,session_id,timestamp,sentence_id,action_type,response,latency_ms,device_type,offline_flag
+1,1,2025-11-05T13:34:27Z,1,val-1,val-1,10,mobile,true
+2,2,2025-11-05T13:34:27Z,2,val-2,val-2,20,web,false
+3,3,2025-11-05T13:34:27Z,3,val-3,val-3,30,mobile,true
+4,4,2025-11-05T13:34:27Z,4,val-4,val-4,40,web,false
+5,5,2025-11-05T13:34:27Z,5,val-5,val-5,50,mobile,true

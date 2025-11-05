@@ -1,0 +1,6 @@
+sentence_id,sentence,sentence_diacritized,translation,rule_id,difficulty,source,i3rab,syntactic_structure_ref
+1,الولدُ يقرأُ كتابًا.,الولدُ يقرأُ كتابًا.,val-1,1,val-1,val-1,val-1,ref-1
+2,ذهبتِ الطالبةُ إلى المدرسةِ مبكرًا.,ذهبتِ الطالبةُ إلى المدرسةِ مبكرًا.,val-2,2,val-2,val-2,val-2,ref-2
+3,يكتبُ المعلمُ الدرسَ على السبورةِ.,يكتبُ المعلمُ الدرسَ على السبورةِ.,val-3,3,val-3,val-3,val-3,ref-3
+4,لمْ يحضرِ الطالبُ الامتحانَ.,لمْ يحضرِ الطالبُ الامتحانَ.,val-4,4,val-4,val-4,val-4,ref-4
+5,هلْ قرأتَ القصةَ الجديدةَ؟,هلْ قرأتَ القصةَ الجديدةَ؟,val-5,5,val-5,val-5,val-5,ref-5

@@ -1,0 +1,6 @@
+rubric_id,dimension,levels_json
+1,val-1,"{""sample"": 0}"
+2,val-2,"{""sample"": 1}"
+3,val-3,"{""sample"": 2}"
+4,val-4,"{""sample"": 3}"
+5,val-5,"{""sample"": 4}"

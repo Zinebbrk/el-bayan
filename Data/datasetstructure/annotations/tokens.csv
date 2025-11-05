@@ -1,0 +1,6 @@
+sentence_id,token_id,token,lemma,pos
+1,1,الولد,ولد,NOUN
+2,2,يقرأ,قرأ,VERB
+3,3,كتابًا,كتاب,NOUN
+4,4,.,.,PUNCT
+5,5,الولد,ولد,NOUN

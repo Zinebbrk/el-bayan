@@ -1,0 +1,6 @@
+exercise_id,sentence_id,incorrect_sentence,correct_sentence,level,time_limit_sec,points,hint_refs,audio_ref
+1,1,val-1,الولدُ يقرأُ كتابًا.,سهل,10,10,ref-1,ref-1
+2,2,val-2,ذهبتِ الطالبةُ إلى المدرسةِ مبكرًا.,متوسط,20,20,ref-2,ref-2
+3,3,val-3,يكتبُ المعلمُ الدرسَ على السبورةِ.,صعب,30,30,ref-3,ref-3
+4,4,val-4,لمْ يحضرِ الطالبُ الامتحانَ.,سهل,40,40,ref-4,ref-4
+5,5,val-5,هلْ قرأتَ القصةَ الجديدةَ؟,متوسط,50,50,ref-5,ref-5

@@ -1,0 +1,6 @@
+learner_id,estimated_level,mastery_by_rule_json,last_recommendation,next_due_ts
+1,val-1,"{""sample"": 0}",val-1,2025-11-05T13:34:27Z
+2,val-2,"{""sample"": 1}",val-2,2025-11-05T13:34:27Z
+3,val-3,"{""sample"": 2}",val-3,2025-11-05T13:34:27Z
+4,val-4,"{""sample"": 3}",val-4,2025-11-05T13:34:27Z
+5,val-5,"{""sample"": 4}",val-5,2025-11-05T13:34:27Z

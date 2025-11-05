@@ -1,0 +1,6 @@
+rule_id,rule_name,description,example,pedagogical_goal,prerequisites,common_misconceptions
+1,رفع الفاعل,مثال/شرح تجريبي,مثال/شرح تجريبي,val-1,val-1,val-1
+2,نصب المفعول,مثال/شرح تجريبي,مثال/شرح تجريبي,val-2,val-2,val-2
+3,جر المضاف إليه,مثال/شرح تجريبي,مثال/شرح تجريبي,val-3,val-3,val-3
+4,تنوين النصب,مثال/شرح تجريبي,مثال/شرح تجريبي,val-4,val-4,val-4
+5,رفع الفاعل,مثال/شرح تجريبي,مثال/شرح تجريبي,val-5,val-5,val-5

@@ -1,0 +1,6 @@
+exercise_id,verb_lemma,prompt_features_json,correct_form,distractors,rule_id,level,time_limit_sec,points,hint_refs,audio_ref
+1,val-1,"{""sample"": 0}",val-1,val-1,1,سهل,10,10,ref-1,ref-1
+2,val-2,"{""sample"": 1}",val-2,val-2,2,متوسط,20,20,ref-2,ref-2
+3,val-3,"{""sample"": 2}",val-3,val-3,3,صعب,30,30,ref-3,ref-3
+4,val-4,"{""sample"": 3}",val-4,val-4,4,سهل,40,40,ref-4,ref-4
+5,val-5,"{""sample"": 4}",val-5,val-5,5,متوسط,50,50,ref-5,ref-5

@@ -1,0 +1,6 @@
+item_id,rater_id,clarity,correctness,usefulness,comments
+1,1,val-1,val-1,val-1,
+2,2,val-2,val-2,val-2,
+3,3,val-3,val-3,val-3,
+4,4,val-4,val-4,val-4,
+5,5,val-5,val-5,val-5,

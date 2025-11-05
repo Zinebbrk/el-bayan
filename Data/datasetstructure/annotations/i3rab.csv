@@ -1,0 +1,6 @@
+sentence_id,token_id,case_mark,syntactic_role,governor_token_id
+1,1,رفع,فاعل,1
+2,2,نصب,مفعول به,2
+3,3,جر,خبر,3
+4,4,رفع,مبتدأ,4
+5,5,نصب,فاعل,5

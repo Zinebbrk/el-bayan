@@ -1,0 +1,6 @@
+rule_id,parent_rule_id,category,subcategory,notes
+1,1,إعراب,val-1,
+2,2,اتفاق,val-2,
+3,3,تصريف,val-3,
+4,4,ترتيب,val-4,
+5,5,إعراب,val-5,

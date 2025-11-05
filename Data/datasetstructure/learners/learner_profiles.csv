@@ -1,0 +1,6 @@
+learner_id,name,current_level,goals,preferred_script,access_constraints
+1,acc,val-1,val-1,val-1,val-1
+2,Accuracy,val-2,val-2,val-2,val-2
+3,fraction correct,val-3,val-3,val-3,val-3
+4,acc,val-4,val-4,val-4,val-4
+5,Accuracy,val-5,val-5,val-5,val-5

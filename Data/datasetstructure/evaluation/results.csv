@@ -1,0 +1,6 @@
+model_id,eval_set,metric_id,value,notes
+1,val-1,acc,0.8,
+2,val-2,Accuracy,0.8200000000000001,
+3,val-3,fraction correct,0.8400000000000001,
+4,val-4,acc,0.8600000000000001,
+5,val-5,Accuracy,0.88,

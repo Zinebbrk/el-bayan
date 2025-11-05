@@ -1,0 +1,6 @@
+learner_id,sentence_id,is_correct,attempts,timestamp
+1,1,true,val-1,2025-11-05T13:34:27Z
+2,2,false,val-2,2025-11-05T13:34:27Z
+3,3,true,val-3,2025-11-05T13:34:27Z
+4,4,false,val-4,2025-11-05T13:34:27Z
+5,5,true,val-5,2025-11-05T13:34:27Z

@@ -1,0 +1,6 @@
+sentence_id,token_id,head_token_id,dep_label
+1,1,1,فاعل
+2,2,2,مفعول به
+3,3,3,خبر
+4,4,4,مبتدأ
+5,5,5,فاعل

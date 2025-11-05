@@ -1,0 +1,6 @@
+model_id,base_model,version,finetune_data_ref,prompt_template_ref
+1,llm-arabic-base,llm-arabic-base,ref-1,ref-1
+2,v1,v1,ref-2,ref-2
+3,llm-arabic-base,llm-arabic-base,ref-3,ref-3
+4,v1,v1,ref-4,ref-4
+5,llm-arabic-base,llm-arabic-base,ref-5,ref-5

@@ -1,0 +1,6 @@
+exercise_id,sentence_id,question,option_a,option_b,option_c,option_d,correct_option,level,time_limit_sec,points,hint_refs,audio_ref
+1,1,val-1,val-1,val-1,val-1,val-1,val-1,سهل,10,10,ref-1,ref-1
+2,2,val-2,val-2,val-2,val-2,val-2,val-2,متوسط,20,20,ref-2,ref-2
+3,3,val-3,val-3,val-3,val-3,val-3,val-3,صعب,30,30,ref-3,ref-3
+4,4,val-4,val-4,val-4,val-4,val-4,val-4,سهل,40,40,ref-4,ref-4
+5,5,val-5,val-5,val-5,val-5,val-5,val-5,متوسط,50,50,ref-5,ref-5

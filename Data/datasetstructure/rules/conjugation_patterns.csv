@@ -1,0 +1,6 @@
+verb_lemma,form,tense,person,number,gender,mood,diacritized_form,features_json
+val-1,I,ماضٍ,الأول,مفرد,مذكر,رفع,val-1,"{""sample"": 0}"
+val-2,II,مضارع,الثاني,مثنى,مؤنث,نصب,val-2,"{""sample"": 1}"
+val-3,III,أمر,الثالث,جمع,مذكر,جزم,val-3,"{""sample"": 2}"
+val-4,IV,ماضٍ,الأول,مفرد,مؤنث,رفع,val-4,"{""sample"": 3}"
+val-5,V,مضارع,الثاني,مثنى,مذكر,نصب,val-5,"{""sample"": 4}"

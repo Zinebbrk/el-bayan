@@ -1,0 +1,6 @@
+sentence_id,level,category,evidence_metric,last_updated,source
+1,سهل,إعراب,val-1,2025-11-05T13:34:27Z,val-1
+2,متوسط,اتفاق,val-2,2025-11-05T13:34:27Z,val-2
+3,صعب,تصريف,val-3,2025-11-05T13:34:27Z,val-3
+4,سهل,ترتيب,val-4,2025-11-05T13:34:27Z,val-4
+5,متوسط,إعراب,val-5,2025-11-05T13:34:27Z,val-5
