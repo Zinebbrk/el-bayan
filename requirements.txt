@@ -1,0 +1,35 @@
+# OCR System Requirements
+# Python dependencies for Arabic grammar book OCR pipeline
+
+# Core OCR and PDF processing
+pytesseract>=0.3.10
+pdf2image>=1.16.3
+opencv-python>=4.8.0
+
+# Arabic text processing
+arabic-reshaper>=3.0.0
+python-bidi>=0.4.2
+
+# Image processing and utilities
+numpy>=1.24.0
+Pillow>=10.0.0
+
+# Progress bars and utilities
+tqdm>=4.66.0
+
+# Optional: Enhanced image processing
+scikit-image>=0.21.0
+
+# System dependencies (install separately):
+# - Tesseract OCR: tesseract-ocr tesseract-ocr-ara
+# - Poppler utils: poppler-utils (for pdf2image)
+#
+# Ubuntu/Debian:
+#   sudo apt-get install tesseract-ocr tesseract-ocr-ara poppler-utils
+#
+# macOS:
+#   brew install tesseract tesseract-lang poppler
+#
+# Windows:
+#   Download Tesseract: https://github.com/UB-Mannheim/tesseract/wiki
+#   Download Poppler: https://github.com/oschwartz10612/poppler-windows/releases/
