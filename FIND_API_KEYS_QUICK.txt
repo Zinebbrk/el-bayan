@@ -1,0 +1,16 @@
+QUICK GUIDE: Finding Supabase API Keys
+
+1. Go to: https://supabase.com/dashboard
+2. Click on your project name
+3. Look at LEFT SIDEBAR (scroll down)
+4. Click the GEAR ICON (⚙️) at the bottom - this is "Settings"
+5. In the Settings menu, click "API"
+6. You'll see:
+   - Project URL: https://xxxxx.supabase.co (copy this)
+   - anon public key: eyJhbGci... (long string, copy this)
+
+ALTERNATIVE URL:
+If you can't find Settings, try going directly to:
+https://supabase.com/dashboard/project/YOUR_PROJECT_REF/settings/api
+
+(Replace YOUR_PROJECT_REF with your project ID from the URL)
