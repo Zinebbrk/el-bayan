@@ -38,3 +38,4 @@ lerna-debug.log*
 # Vite
 .vite/
 
+Frontend-v2/node_modules/

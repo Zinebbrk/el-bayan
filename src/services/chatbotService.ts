@@ -1,6 +1,11 @@
 import { supabase } from '../utils/supabase/client';
-import { aiService, ChatMessage } from './aiService';
 import type { ChatbotConversation } from '../utils/supabase/client';
+
+export interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: string;
+}
 
 export const chatbotService = {
   // Get all conversations for a user
@@ -36,12 +41,20 @@ export const chatbotService = {
   },
 
   // Create a new conversation
-  async createConversation(userId: string): Promise<ChatbotConversation | null> {
+  async createConversation(
+    userId: string,
+    title: string = 'محادثة جديدة'
+  ): Promise<ChatbotConversation | null> {
     const { data, error } = await supabase
       .from('chatbot_conversations')
       .insert({
         user_id: userId,
-        messages: [],
+        title: title,
+        messages: [{
+          role: 'assistant',
+          content: 'السلام عليكم! أنا مساعدك لتعلم قواعد اللغة العربية بالذكاء الاصطناعي. اسألني عن أي قاعدة نحوية، تصحيح الجمل، أو تحليل الإعراب.',
+          timestamp: new Date().toISOString(),
+        }],
       })
       .select()
       .single();
@@ -54,70 +67,46 @@ export const chatbotService = {
     return data;
   },
 
-  // Send a message and get AI response
-  async sendMessage(
-    userId: string,
-    message: string,
-    conversationId?: string
-  ): Promise<{
-    conversation: ChatbotConversation;
-    response: string;
-  } | null> {
-    let conversation: ChatbotConversation | null;
-
-    // Get or create conversation
-    if (conversationId) {
-      conversation = await this.getConversation(conversationId);
-    } else {
-      conversation = await this.createConversation(userId);
-    }
-
-    if (!conversation) return null;
-
-    // Get existing messages
-    const messages = (conversation.messages as ChatMessage[]) || [];
-
-    // Add user message
-    const userMessage: ChatMessage = {
-      role: 'user',
-      content: message,
-      timestamp: new Date().toISOString(),
-    };
-
-    messages.push(userMessage);
-
-    // Get AI response
-    const aiResponse = aiService.chat(message, messages);
-
-    // Add AI message
-    const assistantMessage: ChatMessage = {
-      role: 'assistant',
-      content: aiResponse,
-      timestamp: new Date().toISOString(),
-    };
-
-    messages.push(assistantMessage);
-
-    // Update conversation
-    const { data, error } = await supabase
+  // Update conversation messages
+  async updateConversation(
+    conversationId: string,
+    messages: ChatMessage[]
+  ): Promise<boolean> {
+    const { error } = await supabase
       .from('chatbot_conversations')
       .update({
         messages,
         updated_at: new Date().toISOString(),
       })
-      .eq('id', conversation.id)
-      .select()
-      .single();
+      .eq('id', conversationId);
 
     if (error) {
       console.error('Error updating conversation:', error);
-      return null;
+      return false;
     }
 
-    return {
-      conversation: data,
-      response: aiResponse,
-    };
+    return true;
+  },
+
+  // Update conversation title
+  async updateConversationTitle(
+    conversationId: string,
+    title: string
+  ): Promise<boolean> {
+    const { error } = await supabase
+      .from('chatbot_conversations')
+      .update({
+        title,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', conversationId);
+
+    if (error) {
+      console.error('Error updating conversation title:', error);
+      return false;
+    }
+
+    return true;
   },
 
   // Delete a conversation
@@ -135,17 +124,27 @@ export const chatbotService = {
     return true;
   },
 
-  // Get recent conversations (last 5)
-  async getRecentConversations(userId: string, limit: number = 5): Promise<ChatbotConversation[]> {
+  // Generate title from first user message
+  generateTitle(messages: ChatMessage[]): string {
+    const firstUserMessage = messages.find(msg => msg.role === 'user');
+    if (firstUserMessage) {
+      const content = firstUserMessage.content;
+      return content.length > 50 ? content.substring(0, 50) + '...' : content;
+    }
+    return 'محادثة جديدة';
+  },
+
+  // Search conversations by title or content
+  async searchConversations(userId: string, query: string): Promise<ChatbotConversation[]> {
     const { data, error } = await supabase
       .from('chatbot_conversations')
       .select('*')
       .eq('user_id', userId)
-      .order('updated_at', { ascending: false })
-      .limit(limit);
+      .ilike('title', `%${query}%`)
+      .order('updated_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching recent conversations:', error);
+      console.error('Error searching conversations:', error);
       return [];
     }
 

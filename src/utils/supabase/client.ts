@@ -67,7 +67,8 @@ export type AssessmentSession = {
 export type ChatbotConversation = {
   id: string;
   user_id: string;
-  messages: any; // JSONB - array of {role: 'user' | 'assistant', content: string}
+  title: string; 
+  messages: any; // JSONB - array of {role: 'user' | 'assistant', content: string, timestamp: string}
   created_at: string;
   updated_at: string;
 };
