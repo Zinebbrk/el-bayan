@@ -2,6 +2,7 @@ import { Sparkles, BookOpen, MessageCircle, Target, Trophy } from 'lucide-react'
 import { Button } from './ui/button';
 import { useState } from 'react';
 import { AuthModal } from './AuthModal';
+import backgroundImage from '../background.png';
 
 interface LandingProps {
   onExplore: () => void;
@@ -17,7 +18,24 @@ export function Landing({ onExplore, onViewLessons }: LandingProps) {
   };
 
   return (
-    <div className="min-h-screen">
+    <div 
+      className="min-h-screen relative"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      {/* Background Overlay for Opacity */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.03)'
+        }}
+      />
+      
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#FFFDF6]/80 backdrop-blur-md border-b border-[#E1CB98]/30">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -25,7 +43,17 @@ export function Landing({ onExplore, onViewLessons }: LandingProps) {
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#688837] to-[#C8A560] flex items-center justify-center">
               <BookOpen className="w-6 h-6 text-[#FFFDF6]" />
             </div>
-            <span className="text-[#2D2A26]" style={{ fontFamily: 'Amiri, serif' }}>البيان</span>
+            <span 
+              className="text-[#2D2A26] font-bold" 
+              style={{ 
+                fontFamily: 'Scheherazade New, Amiri, serif',
+                fontSize: '1.5rem',
+                letterSpacing: '0.05em',
+                textShadow: '1px 1px 2px rgba(104, 136, 55, 0.1)'
+              }}
+            >
+              البيان
+            </span>
           </div>
           <div className="flex items-center gap-6">
             <a href="#features" className="text-[#2D2A26] hover:text-[#688837] transition-colors">Features</a>
@@ -48,18 +76,6 @@ export function Landing({ onExplore, onViewLessons }: LandingProps) {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-6 overflow-hidden">
-        {/* Islamic Pattern Background */}
-        <div className="absolute inset-0 opacity-5">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="islamic-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-                <path d="M50 0 L100 50 L50 100 L0 50 Z M50 25 L75 50 L50 75 L25 50 Z" fill="#688837" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#islamic-pattern)" />
-          </svg>
-        </div>
-
         {/* Content */}
         <div className="relative max-w-5xl mx-auto text-center">
           {/* Quranic Verse */}
@@ -67,6 +83,9 @@ export function Landing({ onExplore, onViewLessons }: LandingProps) {
             className="mb-12 p-8 rounded-3xl bg-gradient-to-br from-[#688837]/10 to-[#E1CB98]/20 backdrop-blur-sm border border-[#C8A560]/30 shadow-2xl"
             style={{ fontFamily: 'Amiri, serif' }}
           >
+            <div className="text-5xl md:text-6xl text-[#688837] leading-relaxed mb-6">
+              بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+            </div>
             <div className="text-5xl md:text-6xl text-[#688837] leading-relaxed mb-4">
               ٱلرَّحۡمَٰنُ
             </div>
@@ -84,14 +103,19 @@ export function Landing({ onExplore, onViewLessons }: LandingProps) {
           {/* Main Heading */}
           <h1 
             className="text-5xl md:text-6xl text-[#2D2A26] mb-6"
-            style={{ fontFamily: 'Amiri, serif' }}
+            style={{ 
+              fontFamily: 'Scheherazade New, Amiri, serif',
+              fontWeight: '700',
+              letterSpacing: '0.05em',
+              textShadow: '2px 2px 4px rgba(104, 136, 55, 0.15)'
+            }}
           >
             البيان
             <span className="block text-3xl md:text-4xl mt-2 text-[#688837]">El-Bayan</span>
           </h1>
           
           <p className="text-xl text-[#2D2A26]/80 mb-8 max-w-2xl mx-auto" style={{ fontFamily: 'Cairo, sans-serif' }}>
-            Master Arabic Grammar with AI-Powered Adaptive Learning
+            An adaptive journey to mastering Arabic Grammar , at your place and your level.
           </p>
 
           {/* CTA Buttons */}
@@ -139,16 +163,6 @@ export function Landing({ onExplore, onViewLessons }: LandingProps) {
             personalized learning paths that adjust to your level, helping you understand 
             the beauty and precision of the Arabic language.
           </p>
-          
-          {/* Illustration Placeholder */}
-          <div className="mt-12 p-8 rounded-3xl bg-[#FFFDF6] border-2 border-[#E1CB98] shadow-lg">
-            <div className="flex items-center justify-center gap-8 flex-wrap">
-              <div className="text-6xl text-[#688837]">✍️</div>
-              <div className="text-6xl text-[#C8A560]">📖</div>
-              <div className="text-6xl text-[#688837]">🎓</div>
-              <div className="text-6xl text-[#C8A560]">🌟</div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -290,20 +304,6 @@ export function Landing({ onExplore, onViewLessons }: LandingProps) {
 
       {/* Final CTA */}
       <section className="py-20 px-6 relative overflow-hidden">
-        {/* Geometric Pattern Background */}
-        <div className="absolute inset-0 opacity-10">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="geometric-pattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#688837" strokeWidth="2" />
-                <circle cx="40" cy="40" r="20" fill="none" stroke="#C8A560" strokeWidth="2" />
-                <circle cx="40" cy="40" r="10" fill="#688837" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#geometric-pattern)" />
-          </svg>
-        </div>
-
         <div className="relative max-w-3xl mx-auto text-center">
           <h2 
             className="text-4xl text-[#2D2A26] mb-6"
