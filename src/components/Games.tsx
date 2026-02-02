@@ -94,8 +94,14 @@ export function Games({ onNavigate, onLogout }: GamesProps) {
   const [droppedWords, setDroppedWords] = useState<string[]>([]);
   const [answerFeedback, setAnswerFeedback] = useState<'correct' | 'incorrect' | null>(null);
   const [isChecking, setIsChecking] = useState(false);
+  // Haraka Matching state
+  const [currentHarakaIndex, setCurrentHarakaIndex] = useState(0);
+  const [selectedHaraka, setSelectedHaraka] = useState<string | null>(null);
+  // Iʿrāb Master state
+  const [currentIrabIndex, setCurrentIrabIndex] = useState(0);
+  const [selectedIrab, setSelectedIrab] = useState<string | null>(null);
 
-  // Different sentences for each level
+  // Different sentences for each level (Build the Sentence)
   const sentenceLevels = [
     {
       words: ['الطالبُ', 'يدرسُ', 'الدرسَ', 'في', 'المكتبةِ'],
@@ -111,6 +117,68 @@ export function Games({ onNavigate, onLogout }: GamesProps) {
       words: ['الكتابُ', 'على', 'الطاولةِ', 'جديدٌ'],
       correctOrder: ['الكتابُ', 'على', 'الطاولةِ', 'جديدٌ'],
       translation: 'The book on the table is new',
+    },
+  ];
+
+  // Haraka Matching: sentence with one word missing tashkeel, options are the tashkeel marks
+  const TASHKEEL_OPTIONS = [
+    { mark: 'َ', name: 'فتحة' },
+    { mark: 'ُ', name: 'ضمة' },
+    { mark: 'ِ', name: 'كسرة' },
+    { mark: 'ْ', name: 'سكون' },
+    { mark: 'ّ', name: 'شدة' },
+  ];
+  const harakaLevels = [
+    { sentence: 'الطالب_ يدرسُ الدرسَ', wordWithBlank: 'الطالب_', correctHaraka: 'ُ', translation: 'The student studies the lesson' },
+    { sentence: 'قرأَ الطالبُ الكتاب_ في المكتبةِ', wordWithBlank: 'الكتاب_', correctHaraka: 'َ', translation: 'The student read the book in the library' },
+    { sentence: 'ذهبَ الطالبُ إلى المدرسة_', wordWithBlank: 'المدرسة_', correctHaraka: 'ِ', translation: 'The student went to the school' },
+    { sentence: 'الولد_ مجتهدٌ', wordWithBlank: 'الولد_', correctHaraka: 'ُ', translation: 'The boy is diligent' },
+    { sentence: 'كتبَ المعلمُ الدرس_', wordWithBlank: 'الدرس_', correctHaraka: 'َ', translation: 'The teacher wrote the lesson' },
+  ];
+
+  // Iʿrāb Master: sentence with one chosen word, options are the iʿrāb (grammatical case) of that word
+  const irabLevels = [
+    {
+      sentence: 'قرأَ الطالبُ الكتابَ',
+      targetWord: 'الطالبُ',
+      correctIrab: 'فاعل مرفوع وعلامة رفعه الضمة',
+      options: ['فاعل مرفوع وعلامة رفعه الضمة', 'مفعول به منصوب وعلامة نصبه الفتحة', 'مبتدأ مرفوع وعلامة رفعه الضمة', 'اسم مجرور وعلامة جره الكسرة'],
+      translation: 'The student read the book',
+    },
+    {
+      sentence: 'قرأَ الطالبُ الكتابَ',
+      targetWord: 'الكتابَ',
+      correctIrab: 'مفعول به منصوب وعلامة نصبه الفتحة',
+      options: ['مفعول به منصوب وعلامة نصبه الفتحة', 'فاعل مرفوع وعلامة رفعه الضمة', 'خبر مرفوع وعلامة رفعه الضمة', 'اسم مجرور وعلامة جره الكسرة'],
+      translation: 'The student read the book',
+    },
+    {
+      sentence: 'ذهبَ الطالبُ إلى المدرسةِ',
+      targetWord: 'المدرسةِ',
+      correctIrab: 'اسم مجرور وعلامة جره الكسرة',
+      options: ['اسم مجرور وعلامة جره الكسرة', 'فاعل مرفوع وعلامة رفعه الضمة', 'مفعول به منصوب وعلامة نصبه الفتحة', 'خبر مرفوع وعلامة رفعه الضمة'],
+      translation: 'The student went to the school',
+    },
+    {
+      sentence: 'الطالبُ مجتهدٌ',
+      targetWord: 'الطالبُ',
+      correctIrab: 'مبتدأ مرفوع وعلامة رفعه الضمة',
+      options: ['مبتدأ مرفوع وعلامة رفعه الضمة', 'خبر مرفوع وعلامة رفعه الضمة', 'فاعل مرفوع وعلامة رفعه الضمة', 'مفعول به منصوب وعلامة نصبه الفتحة'],
+      translation: 'The student is diligent',
+    },
+    {
+      sentence: 'الطالبُ مجتهدٌ',
+      targetWord: 'مجتهدٌ',
+      correctIrab: 'خبر مرفوع وعلامة رفعه الضمة',
+      options: ['خبر مرفوع وعلامة رفعه الضمة', 'مبتدأ مرفوع وعلامة رفعه الضمة', 'فاعل مرفوع وعلامة رفعه الضمة', 'مفعول به منصوب وعلامة نصبه الفتحة'],
+      translation: 'The student is diligent',
+    },
+    {
+      sentence: 'كتبَ المعلمُ الدرسَ للطلابِ',
+      targetWord: 'للطلابِ',
+      correctIrab: 'جار ومجرور',
+      options: ['جار ومجرور', 'فاعل مرفوع وعلامة رفعه الضمة', 'مفعول به منصوب وعلامة نصبه الفتحة', 'خبر مرفوع وعلامة رفعه الضمة'],
+      translation: 'The teacher wrote the lesson for the students',
     },
   ];
 
@@ -149,9 +217,19 @@ export function Games({ onNavigate, onLogout }: GamesProps) {
         setLevel(1);
         setDroppedWords([]);
         setAnswerFeedback(null);
-        // Set first level sentence
+        setSelectedHaraka(null);
+        setSelectedIrab(null);
+        // Set first level sentence or game-specific question
         if (gameType === 'build-sentence') {
           setCurrentSentence(sentenceLevels[0]);
+          setCurrentHarakaIndex(0);
+          setCurrentIrabIndex(0);
+        } else if (gameType === 'haraka-matching') {
+          setCurrentSentence(null);
+          setCurrentHarakaIndex(0);
+        } else if (gameType === 'irab-master') {
+          setCurrentSentence(null);
+          setCurrentIrabIndex(0);
         }
       }
     } catch (error) {
@@ -214,6 +292,80 @@ export function Games({ onNavigate, onLogout }: GamesProps) {
     }
   };
 
+  const handleSelectHaraka = (mark: string) => {
+    if (isChecking) return;
+    setSelectedHaraka(mark);
+  };
+
+  const handleCheckHarakaAnswer = async () => {
+    if (selectedHaraka === null) return;
+    const question = harakaLevels[currentHarakaIndex];
+    if (!question) return;
+
+    setIsChecking(true);
+    const isCorrect = selectedHaraka === question.correctHaraka;
+    setAnswerFeedback(isCorrect ? 'correct' : 'incorrect');
+
+    if (isCorrect) {
+      const newScore = score + 40;
+      setScore(newScore);
+      setTimeout(() => {
+        if (currentHarakaIndex < harakaLevels.length - 1) {
+          setCurrentHarakaIndex((i) => i + 1);
+          setSelectedHaraka(null);
+          setAnswerFeedback(null);
+          setIsChecking(false);
+        } else {
+          setIsChecking(false);
+          handleSubmitGame(newScore);
+        }
+      }, 1500);
+    } else {
+      setTimeout(() => {
+        setSelectedHaraka(null);
+        setAnswerFeedback(null);
+        setIsChecking(false);
+      }, 1500);
+    }
+  };
+
+  const handleSelectIrab = (irab: string) => {
+    if (isChecking) return;
+    setSelectedIrab(irab);
+  };
+
+  const handleCheckIrabAnswer = async () => {
+    if (selectedIrab === null) return;
+    const question = irabLevels[currentIrabIndex];
+    if (!question) return;
+
+    setIsChecking(true);
+    const isCorrect = selectedIrab === question.correctIrab;
+    setAnswerFeedback(isCorrect ? 'correct' : 'incorrect');
+
+    if (isCorrect) {
+      const newScore = score + 100;
+      setScore(newScore);
+      setTimeout(() => {
+        if (currentIrabIndex < irabLevels.length - 1) {
+          setCurrentIrabIndex((i) => i + 1);
+          setSelectedIrab(null);
+          setAnswerFeedback(null);
+          setIsChecking(false);
+        } else {
+          setIsChecking(false);
+          handleSubmitGame(newScore);
+        }
+      }, 1500);
+    } else {
+      setTimeout(() => {
+        setSelectedIrab(null);
+        setAnswerFeedback(null);
+        setIsChecking(false);
+      }, 1500);
+    }
+  };
+
   const handleSubmitGame = async (finalScore: number) => {
     if (!currentSession) return;
 
@@ -233,6 +385,10 @@ export function Games({ onNavigate, onLogout }: GamesProps) {
         setCurrentSentence(null);
         setAnswerFeedback(null);
         setIsChecking(false);
+        setCurrentHarakaIndex(0);
+        setSelectedHaraka(null);
+        setCurrentIrabIndex(0);
+        setSelectedIrab(null);
       }
     } catch (error) {
       console.error('Error submitting game:', error);
@@ -459,12 +615,171 @@ export function Games({ onNavigate, onLogout }: GamesProps) {
                     setCurrentSentence(null);
                     setAnswerFeedback(null);
                     setIsChecking(false);
+                    setCurrentHarakaIndex(0);
+                    setSelectedHaraka(null);
+                    setCurrentIrabIndex(0);
+                    setSelectedIrab(null);
                   }}
                   className="mb-6 text-[#688837] hover:text-[#688837]/80"
                 >
                   ← Back to Games
                 </Button>
 
+                {/* Haraka Matching game */}
+                {selectedGame === 'haraka-matching' ? (
+                  <div className="p-8 rounded-3xl bg-gradient-to-br from-[#688837]/10 to-[#C8A560]/10 border-2 border-[#C8A560] mb-6">
+                    <div className="flex items-center justify-between mb-6">
+                      <div>
+                        <h1 className="text-3xl text-[#2D2A26] mb-2" style={{ fontFamily: 'Amiri, serif' }}>
+                          ✨ Haraka Matching
+                        </h1>
+                        <p className="text-[#2D2A26]/60" style={{ fontFamily: 'Cairo, sans-serif' }}>
+                          Question {currentHarakaIndex + 1} of {harakaLevels.length}
+                        </p>
+                      </div>
+                      <div className="px-4 py-2 rounded-full bg-white/50 flex items-center gap-2">
+                        <Star className="w-5 h-5 text-[#C8A560]" />
+                        <span className="text-[#688837]" style={{ fontFamily: 'Cairo, sans-serif' }}>{score} Points</span>
+                      </div>
+                    </div>
+                    {harakaLevels[currentHarakaIndex] && (
+                      <>
+                        <p className="text-lg text-[#2D2A26] mb-2" style={{ fontFamily: 'Cairo, sans-serif' }}>
+                          Choose the correct tashkeel (تشكيل) for the underlined word:
+                        </p>
+                        <p className="text-sm text-[#2D2A26]/60 mb-6" style={{ fontFamily: 'Cairo, sans-serif' }}>
+                          "{harakaLevels[currentHarakaIndex].translation}"
+                        </p>
+                        <div className="text-center mb-8">
+                          <p className="text-4xl md:text-5xl text-[#2D2A26] mb-6" style={{ fontFamily: 'Amiri, serif', direction: 'rtl' }}>
+                            {harakaLevels[currentHarakaIndex].sentence}
+                          </p>
+                        </div>
+                        <p className="text-sm text-[#2D2A26]/70 mb-3" style={{ fontFamily: 'Cairo, sans-serif' }}>
+                          Select the tashkeel:
+                        </p>
+                        <div className="flex flex-wrap gap-4 justify-center mb-6">
+                          {TASHKEEL_OPTIONS.map((opt) => (
+                            <button
+                              key={opt.mark}
+                              onClick={() => handleSelectHaraka(opt.mark)}
+                              disabled={isChecking}
+                              className={`px-6 py-4 rounded-xl border-2 text-2xl transition-all min-w-[4rem] ${
+                                selectedHaraka === opt.mark
+                                  ? 'border-[#688837] bg-[#688837]/20 text-[#688837]'
+                                  : 'border-[#E1CB98] bg-white hover:bg-[#E1CB98]/30 text-[#2D2A26]'
+                              } ${isChecking ? 'opacity-60 cursor-not-allowed' : ''}`}
+                              style={{ fontFamily: 'Amiri, serif' }}
+                            >
+                              <span className="block">{opt.mark}</span>
+                              <span className="block text-xs mt-1 opacity-80" style={{ fontFamily: 'Cairo, sans-serif' }}>{opt.name}</span>
+                            </button>
+                          ))}
+                        </div>
+                        {answerFeedback === 'correct' && (
+                          <p className="text-center text-green-700 text-lg font-bold mb-4" style={{ fontFamily: 'Cairo, sans-serif' }}>
+                            ✓ Correct! Moving to next question...
+                          </p>
+                        )}
+                        {answerFeedback === 'incorrect' && (
+                          <p className="text-center text-red-700 text-lg font-bold mb-4" style={{ fontFamily: 'Cairo, sans-serif' }}>
+                            ✗ Incorrect. Try again!
+                          </p>
+                        )}
+                        <div className="flex gap-4">
+                          <Button
+                            variant="outline"
+                            disabled={isChecking || selectedHaraka === null}
+                            onClick={handleCheckHarakaAnswer}
+                            className="flex-1 bg-[#688837] hover:bg-[#688837]/90 text-white border-0 disabled:opacity-50"
+                          >
+                            {isChecking ? 'Checking...' : 'Check Answer'}
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ) : selectedGame === 'irab-master' ? (
+                  /* Iʿrāb Master game */
+                  <div className="p-8 rounded-3xl bg-gradient-to-br from-[#688837]/10 to-[#C8A560]/10 border-2 border-[#C8A560] mb-6">
+                    <div className="flex items-center justify-between mb-6">
+                      <div>
+                        <h1 className="text-3xl text-[#2D2A26] mb-2" style={{ fontFamily: 'Amiri, serif' }}>
+                          👑 Iʿrāb Master
+                        </h1>
+                        <p className="text-[#2D2A26]/60" style={{ fontFamily: 'Cairo, sans-serif' }}>
+                          Question {currentIrabIndex + 1} of {irabLevels.length}
+                        </p>
+                      </div>
+                      <div className="px-4 py-2 rounded-full bg-white/50 flex items-center gap-2">
+                        <Star className="w-5 h-5 text-[#C8A560]" />
+                        <span className="text-[#688837]" style={{ fontFamily: 'Cairo, sans-serif' }}>{score} Points</span>
+                      </div>
+                    </div>
+                    {irabLevels[currentIrabIndex] && (
+                      <>
+                        <p className="text-lg text-[#2D2A26] mb-2" style={{ fontFamily: 'Cairo, sans-serif' }}>
+                          What is the iʿrāb (إعراب) of the highlighted word?
+                        </p>
+                        <p className="text-sm text-[#2D2A26]/60 mb-6" style={{ fontFamily: 'Cairo, sans-serif' }}>
+                          "{irabLevels[currentIrabIndex].translation}"
+                        </p>
+                        <div className="text-center mb-8">
+                          <p className="text-4xl md:text-5xl text-[#2D2A26] mb-6" style={{ fontFamily: 'Amiri, serif', direction: 'rtl' }}>
+                            {irabLevels[currentIrabIndex].sentence.split(irabLevels[currentIrabIndex].targetWord)[0]}
+                            <span 
+                              className="inline-block bg-[#C8A560]/40 px-1 rounded pb-1 border-b-4 border-[#688837]"
+                              style={{ borderBottom: '4px solid #688837' }}
+                            >
+                              {irabLevels[currentIrabIndex].targetWord}
+                            </span>
+                            {irabLevels[currentIrabIndex].sentence.split(irabLevels[currentIrabIndex].targetWord)[1]}
+                          </p>
+                        </div>
+                        <p className="text-sm text-[#2D2A26]/70 mb-3" style={{ fontFamily: 'Cairo, sans-serif' }}>
+                          Select the correct iʿrāb:
+                        </p>
+                        <div className="flex flex-col gap-3 mb-6">
+                          {irabLevels[currentIrabIndex].options.map((opt) => (
+                            <button
+                              key={opt}
+                              onClick={() => handleSelectIrab(opt)}
+                              disabled={isChecking}
+                              className={`w-full px-6 py-4 rounded-xl border-2 text-right transition-all text-lg ${
+                                selectedIrab === opt
+                                  ? 'border-[#688837] bg-[#688837]/20 text-[#688837]'
+                                  : 'border-[#E1CB98] bg-white hover:bg-[#E1CB98]/30 text-[#2D2A26]'
+                              } ${isChecking ? 'opacity-60 cursor-not-allowed' : ''}`}
+                              style={{ fontFamily: 'Amiri, serif', direction: 'rtl' }}
+                            >
+                              {opt}
+                            </button>
+                          ))}
+                        </div>
+                        {answerFeedback === 'correct' && (
+                          <p className="text-center text-green-700 text-lg font-bold mb-4" style={{ fontFamily: 'Cairo, sans-serif' }}>
+                            ✓ Correct! Moving to next question...
+                          </p>
+                        )}
+                        {answerFeedback === 'incorrect' && (
+                          <p className="text-center text-red-700 text-lg font-bold mb-4" style={{ fontFamily: 'Cairo, sans-serif' }}>
+                            ✗ Incorrect. Try again!
+                          </p>
+                        )}
+                        <div className="flex gap-4">
+                          <Button
+                            variant="outline"
+                            disabled={isChecking || selectedIrab === null}
+                            onClick={handleCheckIrabAnswer}
+                            className="flex-1 bg-[#688837] hover:bg-[#688837]/90 text-white border-0 disabled:opacity-50"
+                          >
+                            {isChecking ? 'Checking...' : 'Check Answer'}
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ) : (
                 <div className="p-8 rounded-3xl bg-gradient-to-br from-[#688837]/10 to-[#C8A560]/10 border-2 border-[#C8A560] mb-6">
                   <div className="flex items-center justify-between mb-6">
                     <div>
@@ -603,6 +918,7 @@ export function Games({ onNavigate, onLogout }: GamesProps) {
                     </Button>
                   </div>
                 </div>
+                )}
 
                 {/* Progress */}
                 <div className="p-6 rounded-2xl bg-[#FFFDF6] border-2 border-[#E1CB98]">
@@ -611,13 +927,23 @@ export function Games({ onNavigate, onLogout }: GamesProps) {
                       Game Progress
                     </span>
                     <span className="text-[#688837]" style={{ fontFamily: 'Cairo, sans-serif' }}>
-                      Level {level}/3
+                      {selectedGame === 'haraka-matching'
+                        ? `Question ${currentHarakaIndex + 1}/${harakaLevels.length}`
+                        : selectedGame === 'irab-master'
+                        ? `Question ${currentIrabIndex + 1}/${irabLevels.length}`
+                        : `Level ${level}/3`}
                     </span>
                   </div>
                   <div className="w-full h-3 bg-[#E1CB98]/30 rounded-full overflow-hidden">
                     <div 
                       className="h-full bg-gradient-to-r from-[#688837] to-[#C8A560] rounded-full transition-all duration-300"
-                      style={{ width: `${Math.min((level / 3) * 100, 100)}%` }}
+                      style={{ 
+                        width: selectedGame === 'haraka-matching'
+                          ? `${((currentHarakaIndex + 1) / harakaLevels.length) * 100}%`
+                          : selectedGame === 'irab-master'
+                          ? `${((currentIrabIndex + 1) / irabLevels.length) * 100}%`
+                          : `${Math.min((level / 3) * 100, 100)}%` 
+                      }}
                     ></div>
                   </div>
                 </div>
