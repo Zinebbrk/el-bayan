@@ -19,7 +19,7 @@ VECTOR_STORE_DIR = BASE_DIR / "vector_store"
 VECTOR_STORE_DIR.mkdir(exist_ok=True)
 
 # ==================== API KEYS ====================
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "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")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "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")
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 
 if not OPENROUTER_API_KEY:
@@ -40,7 +40,7 @@ TOP_K_RETRIEVAL = 5  # Number of chunks to retrieve
 MIN_SCORE = 0.3  # Minimum similarity score
 
 # ==================== LLM SETTINGS ====================
-LLM_MODEL = "google/gemini-2.0-flash-exp:free"  # OpenRouter model name
+LLM_MODEL = "google/gemma-3n-e2b-it:free"  # OpenRouter model name
 MAX_OUTPUT_TOKENS = 2048
 TEMPERATURE = 0.7
 
